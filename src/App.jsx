@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import Login from './components/Login'
 import CreateNewBlog from './components/CreateNewBlog'
 import Notification from './components/Notification/Notification'
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [message, setMessage] = useState(null)
@@ -30,7 +31,7 @@ const App = () => {
     setTimeout(() => setMessage(null), 5000)
   }
   const handleLogout = () => {
-    window.localStorage.clear()
+    window.localStorage.removeItem('BloglistUser')
     setUser(null)
   }
 
@@ -43,7 +44,9 @@ const App = () => {
             <h2>blogs</h2>
             <span>{`Logged as ${user.username}`}</span>
             <button onClick={handleLogout}>Logout</button>
-            <CreateNewBlog notification={showNotification}/>
+            <Togglable buttonLabel="Add a Blog" >
+              <CreateNewBlog notification={showNotification} />
+            </Togglable>
             {blogs.map(blog =>
             <Blog key={blog.id} blog={blog} />
             )}
