@@ -34,17 +34,29 @@ const Login = ({ logged, notification }) => {
   }
   return (
     user === null
-      ? (<form>
+      ? (<form onSubmit={handleLogin}>
             <h1>Login to the application</h1>
             <div>
-            <label >Username</label>
-            <input type={'text'} onChange={(e) => setUsername(e.target.value)}/>
+              <label name="Username">Username</label>
+              <input
+              type={'text'}
+              value={username}
+              name='Username'
+              placeholder='Username'
+              onChange={(e) => setUsername(e.target.value)}
+              />
             </div>
             <div>
-            <label>Password</label>
-            <input type={'password'} onChange={(e) => setPassword(e.target.value)} />
+              <label name="Password">Password</label>
+              <input
+              type={'password'}
+              value={password}
+              name='Password'
+              placeholder='Password'
+              onChange={(e) => setPassword(e.target.value)}
+              />
             </div>
-            <button onClick={handleLogin}>login</button>
+              <button>login</button>
         </form>)
       : (
           <>

@@ -20,21 +20,39 @@ const CreateNewBlog = ({ notification }) => {
   }
 
   return (
-        <form>
+        <form onSubmit={handleSubmit}>
             <h2>Create new blog</h2>
             <div>
               <label>Title:</label>
-              <input type={'text'} onChange={(e) => setTitle(e.target.value)}/>
+              <input
+              type='text'
+              value={title}
+              name='Title'
+              placeholder='Title'
+              onChange={(e) => setTitle(e.target.value)}
+               />
             </div>
             <div>
                 <label>Author:</label>
-                <input type={'text'} onChange={(e) => setAuthor(e.target.value)}/>
+                <input
+                type='text'
+                value={author}
+                name='Author'
+                placeholder='Author'
+                onChange={(e) => setAuthor(e.target.value)}
+                />
             </div>
             <div>
                 <label>url:</label>
-                <input type={'text'} onChange={(e) => setUrl(e.target.value)}/>
+                <input
+                type='text'
+                value={url}
+                name='Url'
+                placeholder='Url'
+                onChange={(e) => setUrl(e.target.value)}
+                />
             </div>
-            <button onClick={handleSubmit}>Create</button>
+            <button>Create</button>
         </form>
   )
 }
