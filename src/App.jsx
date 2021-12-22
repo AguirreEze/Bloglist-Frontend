@@ -7,6 +7,8 @@ import Notification from './components/Notification/Notification'
 import Togglable from './components/Togglable'
 
 const App = () => {
+  const hideForm = useRef()
+
   const [message, setMessage] = useState(null)
   const [messageType, setMessageType] = useState('ok')
   const [blogs, setBlogs] = useState([])
@@ -44,8 +46,8 @@ const App = () => {
             <h2>blogs</h2>
             <span>{`Logged as ${user.username}`}</span>
             <button onClick={handleLogout}>Logout</button>
-            <Togglable buttonLabel="Add a Blog" >
-              <CreateNewBlog notification={showNotification} />
+            <Togglable buttonLabel="Add a Blog" ref={hideForm}>
+              <CreateNewBlog notification={showNotification} hide={hideForm} />
             </Togglable>
             {blogs.map(blog =>
             <Blog key={blog.id} blog={blog} />

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import blog from '../services/blogs'
 
-const CreateNewBlog = ({ notification }) => {
+const CreateNewBlog = ({ notification, hide }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
@@ -20,6 +20,7 @@ const CreateNewBlog = ({ notification }) => {
       setTitle('')
       setAuthor('')
       setUrl('')
+      hide.current.toggleVisibility()
     } catch ({ response }) { notification(response.data.error, 'error') }
   }
 
