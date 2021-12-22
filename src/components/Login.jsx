@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import login from '../services/login'
 
 const Login = ({ setUser, notification }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-
-  useEffect(() => {
-    setUser(JSON.parse(window.localStorage.getItem('BloglistUser')))
-  }, [])
 
   const handleLogin = async (e) => {
     e.preventDefault()

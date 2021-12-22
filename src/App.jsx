@@ -9,13 +9,21 @@ const App = () => {
   const [message, setMessage] = useState(null)
   const [messageType, setMessageType] = useState('ok')
   const [blogs, setBlogs] = useState([])
-  const [user, setUser] = useState(JSON.parse(window.localStorage.getItem('BloglistUser')))
+  const [user, setUser] = useState(null)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs(blogs)
     )
   }, [])
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('BloglistUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+    }
+  }, [])
+
   const showNotification = (detail, type) => {
     setMessage(detail)
     setMessageType(type)
