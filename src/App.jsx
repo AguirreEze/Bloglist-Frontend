@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import Login from './components/Login'
+import CreateNewBlog from './components/CreateNewBlog'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -19,7 +20,9 @@ const App = () => {
       <Login logged={setLogged}/>
 
       {logged
-        ? (<div>
+        ? (
+          <div>
+          <CreateNewBlog />
       <h2>blogs</h2>
 
       {blogs.map(blog =>
