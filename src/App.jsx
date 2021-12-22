@@ -11,6 +11,7 @@ const App = () => {
     blogService.getAll().then(blogs =>
       setBlogs(blogs)
     )
+    if (window.localStorage.getItem('BloglistUser') !== null) setLogged(true)
   }, [])
 
   return (

@@ -1,10 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import login from '../services/login'
 
 const Login = ({ logged }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    setUser(JSON.parse(window.localStorage.getItem('BloglistUser')))
+  }, [])
 
   const handleLogin = async (e) => {
     e.preventDefault()
@@ -15,10 +19,17 @@ const Login = ({ logged }) => {
     try {
       const data = await login.getToken(user)
       setUser(data)
+      window.localStorage.setItem('BloglistUser', JSON.stringify(data))
       logged(true)
     } catch (err) {
       console.log('Wrong credentials')
     }
+  }
+
+  const handleLogout = () => {
+    window.localStorage.clear()
+    setUser(null)
+    logged(false)
   }
   return (
     user === null
@@ -34,7 +45,12 @@ const Login = ({ logged }) => {
             </div>
             <button onClick={handleLogin}>login</button>
         </form>)
-      : <span>{`Logged as ${user.username}`}</span>
+      : (
+          <>
+             <span>{`Logged as ${user.username}`}</span>
+             <button onClick={handleLogout}>Logout</button>
+          </>
+        )
   )
 }
 
