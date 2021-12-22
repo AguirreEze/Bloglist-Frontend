@@ -16,6 +16,10 @@ const CreateNewBlog = ({ notification }) => {
     try {
       await blog.createNewBlog(data)
       notification(`New blog: "${data.title}" added`, 'ok')
+
+      setTitle('')
+      setAuthor('')
+      setUrl('')
     } catch ({ response }) { notification(response.data.error, 'error') }
   }
 
