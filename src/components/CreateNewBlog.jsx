@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import blog from '../services/blogs'
 
-const CreateNewBlog = () => {
+const CreateNewBlog = ({ notification }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     const data = {
       title,
@@ -14,8 +14,9 @@ const CreateNewBlog = () => {
       url
     }
     try {
-      blog.createNewBlog(data)
-    } catch (err) { console.log(err) }
+      await blog.createNewBlog(data)
+      notification(`New blog: "${data.title}" added`, 'ok')
+    } catch ({ response }) { notification(response.data.error, 'error') }
   }
 
   return (

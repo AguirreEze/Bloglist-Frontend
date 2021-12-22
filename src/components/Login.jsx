@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import login from '../services/login'
 
-const Login = ({ logged }) => {
+const Login = ({ logged, notification }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
@@ -21,8 +21,9 @@ const Login = ({ logged }) => {
       setUser(data)
       window.localStorage.setItem('BloglistUser', JSON.stringify(data))
       logged(true)
-    } catch (err) {
-      console.log('Wrong credentials')
+      notification('Welcome', 'ok')
+    } catch ({ response }) {
+      notification(response.data.error, 'error')
     }
   }
 
