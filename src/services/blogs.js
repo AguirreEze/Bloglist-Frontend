@@ -8,14 +8,12 @@ const getAll = () => {
 
 const createNewBlog = (data) => {
   const { token } = JSON.parse(window.localStorage.getItem('BloglistUser'))
-  const request = axios.post(
-    baseUrl,
-    data,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }
+  const request = axios.post(baseUrl, data, config)
   return request.then(res => res.data)
 }
 

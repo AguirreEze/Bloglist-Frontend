@@ -9,37 +9,43 @@ const App = () => {
   const [message, setMessage] = useState(null)
   const [messageType, setMessageType] = useState('ok')
   const [blogs, setBlogs] = useState([])
-  const [logged, setLogged] = useState(false)
+  const [user, setUser] = useState(JSON.parse(window.localStorage.getItem('BloglistUser')))
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs(blogs)
     )
-    if (window.localStorage.getItem('BloglistUser') !== null) setLogged(true)
   }, [])
   const showNotification = (detail, type) => {
     setMessage(detail)
     setMessageType(type)
     setTimeout(() => setMessage(null), 5000)
   }
+  const handleLogout = () => {
+    window.localStorage.clear()
+    setUser(null)
+  }
 
   return (
     <>
-      <h2>blogs</h2>
       <Notification text={message} type={messageType}/>
-
-      <Login logged={setLogged} notification={showNotification}/>
-
-      {logged
+      {user
         ? (
           <div>
-          <CreateNewBlog notification={showNotification}/>
-
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-      )}
-    </div>)
-        : null}
+            <h2>blogs</h2>
+            <span>{`Logged as ${user.username}`}</span>
+            <button onClick={handleLogout}>Logout</button>
+            <CreateNewBlog notification={showNotification}/>
+            {blogs.map(blog =>
+            <Blog key={blog.id} blog={blog} />
+            )}
+          </div>)
+        : (
+          <>
+            <Login setUser={setUser} notification={showNotification}/>
+          </>
+          )
+        }
 
     </>
   )
