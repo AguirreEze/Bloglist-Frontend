@@ -33,4 +33,10 @@ const likeBlog = (blog) => {
   return req.then(res => res.data)
 }
 
-export default { getAll, createNewBlog, likeBlog }
+const deleteBlog = (id) => {
+  const config = getConfig()
+  const req = axios.delete(`${baseUrl}/${id}`, config)
+  return req.then(res => res.data)
+}
+
+export default { getAll, createNewBlog, likeBlog, deleteBlog }

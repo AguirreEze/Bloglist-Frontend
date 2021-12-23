@@ -1,7 +1,7 @@
 import React from 'react'
 import { ok, error } from './notification.module.css'
 
-const Notification = ({ text, type }) => {
+const Notification = ({ text, type = 'ok' }) => {
   return (
     text !== null
       ? <div

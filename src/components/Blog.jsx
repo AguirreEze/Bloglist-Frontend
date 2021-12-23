@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import blogService from '../services/blogs'
+import DeleteBlog from './DeleteBlog'
 
 const blogStyle = {
   paddingTop: 10,
@@ -12,6 +13,7 @@ const blogStyle = {
 const Blog = ({ blog, notification }) => {
   const { title, author, url, likes, user, id } = blog
 
+  const [deleted, setDeleted] = useState(false)
   const [show, setShow] = useState(false)
   const [showLikes, setShowLikes] = useState(likes)
 
@@ -32,6 +34,9 @@ const Blog = ({ blog, notification }) => {
   }
 
   const toggleShow = () => setShow(!show)
+
+  if (deleted) return null
+
   return (
     show
       ? (
@@ -50,6 +55,12 @@ const Blog = ({ blog, notification }) => {
           <div>
             <span>{author}</span>
           </div>
+          <DeleteBlog
+          userId={user.id}
+          blog={blog}
+          notification={notification}
+          setDeleted={setDeleted}
+          />
         </div>
         )
       : (
