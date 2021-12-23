@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import blogService from '../services/blogs'
 import DeleteBlog from './DeleteBlog'
@@ -70,6 +71,11 @@ const Blog = ({ blog, notification }) => {
       </div>
         )
   )
+}
+
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired,
+  notification: PropTypes.func.isRequired
 }
 
 export default Blog

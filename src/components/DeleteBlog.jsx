@@ -1,5 +1,6 @@
 import React from 'react'
 import blogServices from '../services/blogs'
+import PropTypes from 'prop-types'
 
 const DeleteBlog = ({ userId, blog, notification, setDeleted }) => {
   const { title, author, id } = blog
@@ -20,6 +21,13 @@ const DeleteBlog = ({ userId, blog, notification, setDeleted }) => {
       ? <button onClick={handleDelete}>delete</button>
       : null
   )
+}
+
+DeleteBlog.propTypes = {
+  userId: PropTypes.string.isRequired,
+  blog: PropTypes.object.isRequired,
+  notification: PropTypes.func.isRequired,
+  setDeleted: PropTypes.func.isRequired
 }
 
 export default DeleteBlog

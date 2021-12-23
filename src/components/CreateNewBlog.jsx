@@ -1,3 +1,4 @@
+import propTypes from 'prop-types'
 import React, { useState } from 'react'
 import blog from '../services/blogs'
 
@@ -60,6 +61,11 @@ const CreateNewBlog = ({ notification, hide }) => {
             <button>Create</button>
         </form>
   )
+}
+
+CreateNewBlog.propTypes = {
+  notification: propTypes.func.isRequired,
+  hide: propTypes.object
 }
 
 export default CreateNewBlog
