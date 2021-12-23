@@ -20,7 +20,7 @@ const Blog = ({ blog, notification }) => {
       title,
       author,
       url,
-      likes: likes + 1,
+      likes: showLikes + 1,
       user,
       id
     }
