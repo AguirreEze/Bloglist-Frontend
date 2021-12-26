@@ -46,11 +46,11 @@ const Blog = ({ blog, notification }) => {
             <span>{title}</span>
             <button onClick={toggleShow}>hide</button>
           </div>
-          <div>
+          <div className='url'>
            <span>{url}</span>
           </div>
           <div>
-           <span>likes: {showLikes}</span>
+           <span className='likes'>likes: {showLikes}</span>
            <button onClick={handleLike}>like</button>
           </div>
           <div>
@@ -67,6 +67,7 @@ const Blog = ({ blog, notification }) => {
       : (
       <div>
         <span>{title}</span>
+        <span>{author}</span>
         <button onClick={toggleShow}>view</button>
       </div>
         )
@@ -75,7 +76,7 @@ const Blog = ({ blog, notification }) => {
 
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
-  notification: PropTypes.func.isRequired
+  notification: PropTypes.func
 }
 
 export default Blog
