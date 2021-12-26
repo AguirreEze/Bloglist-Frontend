@@ -5,10 +5,12 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "react-scripts test"
+    "test": "react-scripts test",
+    "cypress:open": "cypress open"
   },
   "dependencies": {
     "axios": "^0.24.0",
+    "cypress": "^9.2.0",
     "jest": "^27.4.5",
     "prop-types": "^15.8.0",
     "react": "^17.0.2",
@@ -22,6 +24,7 @@
     "@vitejs/plugin-react": "^1.0.7",
     "eslint": "^7.32.0",
     "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-jest": "^25.3.0",
     "eslint-plugin-node": "^11.1.0",

@@ -11,6 +11,7 @@ const Notification = ({ text, type = 'ok' }) => {
           ? ok
           : error
       }
+      data-test-id={'notifications'}
       >{text}</div>
       : null
   )
