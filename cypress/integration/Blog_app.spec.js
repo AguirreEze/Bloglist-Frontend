@@ -27,6 +27,7 @@ describe('Blog App', () => {
       cy.contains('login').click()
       cy.contains('Welcome Tydro')
     })
+
     it('fails with wrong credentials', () => {
       cy.get('input').first().type(`fail${user.username}`)
       cy.get('[placeholder="Password"]').type(user.password)
@@ -38,12 +39,10 @@ describe('Blog App', () => {
 
   describe('When logged in', () => {
     beforeEach(() => {
-      cy.get('input').first().type(user.username)
-      cy.get('[placeholder="Password"]').type(user.password)
-      cy.contains('login').click()
+      cy.login({ username: user.username, password: user.password })
     })
 
-    it.only('A blog can be created', () => {
+    it('A blog can be created', () => {
       cy.contains('Add a Blog').click()
       cy.get('[data-test-id="create-new-blog-form"]').get('input').eq(0).type(blog.title)
       cy.get('[data-test-id="create-new-blog-form"]').get('input').eq(1).type(blog.author)
@@ -53,6 +52,18 @@ describe('Blog App', () => {
       cy.get('[data-test-id="notifications"]').should('have.css', 'color', 'rgb(0, 128, 0)')
       cy.visit('http://localhost:3000/')
       cy.contains(`${blog.title}${blog.author}`)
+    })
+
+    describe('When you have blogs on the list', () => {
+      beforeEach(() => {
+        cy.createBlog({ title: blog.title, author: blog.author, url: blog.url })
+      })
+      it('A blog can be liked', () => {
+        cy.contains(`${blog.title}${blog.author}`)
+        cy.contains('view').click()
+        cy.get('button').contains('like').click()
+        cy.contains(`Liked ${blog.title}, from ${blog.author}`).should('have.css', 'color', 'rgb(0, 128, 0)')
+      })
     })
   })
 })
