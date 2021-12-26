@@ -26,7 +26,10 @@ const CreateNewBlog = ({ notification, hide }) => {
   }
 
   return (
-        <form onSubmit={handleSubmit}>
+        <form
+        onSubmit={handleSubmit}
+        data-test-id={'create-new-blog-form'}
+        >
             <h2>Create new blog</h2>
             <div>
               <label>Title:</label>
