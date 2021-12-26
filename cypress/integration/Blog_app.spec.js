@@ -64,6 +64,13 @@ describe('Blog App', () => {
         cy.get('button').contains('like').click()
         cy.contains(`Liked ${blog.title}, from ${blog.author}`).should('have.css', 'color', 'rgb(0, 128, 0)')
       })
+
+      it('A blog can be deleted by its owner', () => {
+        cy.contains(`${blog.title}${blog.author}`)
+        cy.contains('view').click()
+        cy.get('button').contains('delete').click()
+        cy.contains(`Deleted ${blog.title}, by ${blog.author}`).should('have.css', 'color', 'rgb(0, 128, 0)')
+      })
     })
   })
 })
