@@ -44,10 +44,12 @@ describe('Blog App', () => {
 
     it('A blog can be created', () => {
       cy.contains('Add a Blog').click()
-      cy.get('[data-test-id="create-new-blog-form"]').get('input').eq(0).type(blog.title)
-      cy.get('[data-test-id="create-new-blog-form"]').get('input').eq(1).type(blog.author)
-      cy.get('[data-test-id="create-new-blog-form"]').get('input').eq(2).type(blog.url)
-      cy.get('[data-test-id="create-new-blog-form"]').get('button').contains('Create').click()
+      cy.get('[data-test-id="create-new-blog-form"]').within(() => {
+        cy.get('input').eq(0).type(blog.title)
+        cy.get('input').eq(1).type(blog.author)
+        cy.get('input').eq(2).type(blog.url)
+        cy.get('button').contains('Create').click()
+      })
       cy.contains(`New blog: "${blog.title}" added`)
       cy.get('[data-test-id="notifications"]').should('have.css', 'color', 'rgb(0, 128, 0)')
       cy.visit('http://localhost:3000/')
@@ -70,6 +72,16 @@ describe('Blog App', () => {
         cy.contains('view').click()
         cy.get('button').contains('delete').click()
         cy.contains(`Deleted ${blog.title}, by ${blog.author}`).should('have.css', 'color', 'rgb(0, 128, 0)')
+      })
+
+      it.only('When list have many blogs, they are ordered by likes', () => {
+        cy.createBlog({ title: blog.title, author: blog.author, url: blog.url, likes: 3 })
+        cy.createBlog({ title: blog.title, author: blog.author, url: blog.url, likes: 7 })
+        cy.contains(blog.title)
+        cy.get('[data-test-id="blog-list-display"]').within(() => {
+          cy.get('button').click({ multiple: true })
+        })
+        cy.get('.likes').eq(0).should('include.text', '7')
       })
     })
   })

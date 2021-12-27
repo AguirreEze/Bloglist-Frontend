@@ -6,7 +6,7 @@ Cypress.Commands.add('login', ({ username, password }) => {
   cy.visit('http://localhost:3000/')
 })
 
-Cypress.Commands.add('createBlog', ({ title, author, url }) => {
+Cypress.Commands.add('createBlog', ({ title, author, url, likes = 0 }) => {
   const user = JSON.parse(window.localStorage.getItem('BloglistUser'))
   const headers = {
     Authorization: `Bearer ${user.token}`
@@ -14,7 +14,8 @@ Cypress.Commands.add('createBlog', ({ title, author, url }) => {
   const body = {
     title,
     author,
-    url
+    url,
+    likes
   }
   cy.request({
     method: 'POST',
