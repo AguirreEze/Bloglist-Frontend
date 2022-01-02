@@ -1,8 +1,11 @@
-import propTypes from 'prop-types'
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { setNotification } from '../reducers/notificationReducer'
+import { setLogin } from '../reducers/userReducer'
 import login from '../services/login'
 
-const Login = ({ setUser, notification }) => {
+const Login = () => {
+  const dispatch = useDispatch()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
@@ -14,11 +17,11 @@ const Login = ({ setUser, notification }) => {
     }
     try {
       const data = await login.getToken(user)
-      setUser(data)
+      dispatch(setLogin(data))
       window.localStorage.setItem('BloglistUser', JSON.stringify(data))
-      notification(`Welcome ${data.username}`, 'ok')
+      dispatch(setNotification(`Welcome ${data.username}`, 'ok'))
     } catch ({ response }) {
-      notification(response.data.error, 'error')
+      dispatch(setNotification(response.data.error, 'error'))
     }
   }
 
@@ -49,11 +52,6 @@ const Login = ({ setUser, notification }) => {
     </form>)
 
   )
-}
-
-Login.propTypes = {
-  setUser: propTypes.func.isRequired,
-  notification: propTypes.func.isRequired
 }
 
 export default Login

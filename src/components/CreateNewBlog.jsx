@@ -1,11 +1,15 @@
 import propTypes from 'prop-types'
 import React, { useState } from 'react'
 import blog from '../services/blogs'
+import { setNotification } from '../reducers/notificationReducer'
+import { useDispatch } from 'react-redux'
 
-const CreateNewBlog = ({ notification, hide }) => {
+const CreateNewBlog = ({ hide }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+
+  const dispatch = useDispatch()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -16,13 +20,13 @@ const CreateNewBlog = ({ notification, hide }) => {
     }
     try {
       await blog.createNewBlog(data)
-      notification(`New blog: "${data.title}" added`, 'ok')
+      dispatch(setNotification(`New blog: "${data.title}" added`, 'ok'))
 
       setTitle('')
       setAuthor('')
       setUrl('')
       hide.current.toggleVisibility()
-    } catch ({ response }) { notification(response.data.error, 'error') }
+    } catch ({ response }) { dispatch(setNotification(response.data.error, 'error')) }
   }
 
   return (
@@ -67,7 +71,6 @@ const CreateNewBlog = ({ notification, hide }) => {
 }
 
 CreateNewBlog.propTypes = {
-  notification: propTypes.func.isRequired,
   hide: propTypes.object
 }
 

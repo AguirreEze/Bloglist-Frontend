@@ -1,18 +1,21 @@
 import propTypes from 'prop-types'
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { ok, error } from './notification.module.css'
 
-const Notification = ({ text, type = 'ok' }) => {
+const Notification = () => {
+  const notification = useSelector(store => store.notification)
+
   return (
-    text !== null
+    notification.text !== ''
       ? <div
       className={
-        type === 'ok'
+        notification.type === 'ok'
           ? ok
           : error
       }
       data-test-id={'notifications'}
-      >{text}</div>
+      >{notification.text}</div>
       : null
   )
 }

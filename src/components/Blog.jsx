@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { setNotification } from '../reducers/notificationReducer'
 import blogService from '../services/blogs'
 import DeleteBlog from './DeleteBlog'
 
@@ -11,8 +13,10 @@ const blogStyle = {
   marginBottom: 5
 }
 
-const Blog = ({ blog, notification }) => {
+const Blog = ({ blog }) => {
   const { title, author, url, likes, user, id } = blog
+
+  const dispatch = useDispatch()
 
   const [deleted, setDeleted] = useState(false)
   const [show, setShow] = useState(false)
@@ -30,8 +34,8 @@ const Blog = ({ blog, notification }) => {
     try {
       await blogService.likeBlog(likedBlog)
       setShowLikes(showLikes + 1)
-      notification(`Liked ${title}, from ${author}`, 'ok')
-    } catch ({ response }) { notification(response.data.error, 'error') }
+      dispatch(setNotification(`Liked ${title}, from ${author}`, 'ok'))
+    } catch ({ response }) { dispatch(setNotification(response.data.error, 'error')) }
   }
 
   const toggleShow = () => setShow(!show)
@@ -59,7 +63,6 @@ const Blog = ({ blog, notification }) => {
           <DeleteBlog
           userId={user.id}
           blog={blog}
-          notification={notification}
           setDeleted={setDeleted}
           />
         </div>
@@ -75,8 +78,7 @@ const Blog = ({ blog, notification }) => {
 }
 
 Blog.propTypes = {
-  blog: PropTypes.object.isRequired,
-  notification: PropTypes.func
+  blog: PropTypes.object.isRequired
 }
 
 export default Blog

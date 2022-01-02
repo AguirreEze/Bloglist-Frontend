@@ -1,8 +1,12 @@
 import React from 'react'
 import blogServices from '../services/blogs'
 import PropTypes from 'prop-types'
+import { useDispatch } from 'react-redux'
+import { setNotification } from '../reducers/notificationReducer'
 
-const DeleteBlog = ({ userId, blog, notification, setDeleted }) => {
+const DeleteBlog = ({ userId, blog, setDeleted }) => {
+  const dispatch = useDispatch()
+
   const { title, author, id } = blog
   const loggedId = JSON.parse(window.localStorage.getItem('BloglistUser')).id
 
@@ -10,9 +14,9 @@ const DeleteBlog = ({ userId, blog, notification, setDeleted }) => {
     if (window.confirm(`Remove Blog: ${title}, by ${author}`)) {
       try {
         blogServices.deleteBlog(id)
-        notification(`Deleted ${title}, by ${author}`, 'ok')
+        dispatch(setNotification(`Deleted ${title}, by ${author}`, 'ok'))
         setDeleted(true)
-      } catch ({ response }) { notification(response.data.error, 'error') }
+      } catch ({ response }) { dispatch(setNotification(response.data.error, 'error')) }
     }
   }
 
@@ -26,7 +30,6 @@ const DeleteBlog = ({ userId, blog, notification, setDeleted }) => {
 DeleteBlog.propTypes = {
   userId: PropTypes.string.isRequired,
   blog: PropTypes.object.isRequired,
-  notification: PropTypes.func.isRequired,
   setDeleted: PropTypes.func.isRequired
 }
 
