@@ -6,6 +6,7 @@ import { setLogin, setLogout } from './reducers/userReducer'
 import { useSelector, useDispatch } from 'react-redux'
 import BlogList from './components/BlogList/BlogList'
 import UserList from './components/UserList/UserList'
+import User from './components/User/User'
 
 const App = () => {
   const user = useSelector(store => store.user)
@@ -36,6 +37,7 @@ const App = () => {
                 <button onClick={handleLogout}>Logout</button>
               </header>
               <Routes>
+                <Route path='/users/:id' element={<User/>} />
                 <Route path='/users' element={<UserList />} />
                 <Route path='/' element={<BlogList />} />
               </Routes>
