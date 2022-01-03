@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import CreateNewBlog from '../CreateNewBlog'
 import { initBlogs } from '../../reducers/blogsReducer'
 import Togglable from '../Togglable'
-import Blog from '../Blog/Blog'
+import { Link } from 'react-router-dom'
 
 const BlogList = () => {
   const hideForm = useRef()
@@ -19,11 +19,11 @@ const BlogList = () => {
         <Togglable buttonLabel="Add a Blog" ref={hideForm}>
             <CreateNewBlog hide={hideForm} />
         </Togglable>
-        <div data-test-id={'blog-list-display'}>
+        <ul data-test-id={'blog-list-display'}>
         {blogs.sort((a, b) => b.likes - a.likes).map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <li key={blog.id}><Link to={`/blogs/${blog.id}`}>{blog.title}</Link></li>
         )}
-        </div>
+        </ul>
     </section>)
 }
 

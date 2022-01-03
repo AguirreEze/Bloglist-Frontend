@@ -1,84 +1,49 @@
-import PropTypes from 'prop-types'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { useParams } from 'react-router'
 import { setNotification } from '../../reducers/notificationReducer'
 import blogService from '../../services/blogs'
 import DeleteBlog from '../DeleteBlog'
 
-const blogStyle = {
-  paddingTop: 10,
-  paddingLeft: 2,
-  border: 'solid',
-  borderWidth: 1,
-  marginBottom: 5
-}
-
-const Blog = ({ blog }) => {
-  const { title, author, url, likes, user, id } = blog
-
+const Blog = () => {
   const dispatch = useDispatch()
-
+  const { id } = useParams()
+  const [blog, setBlog] = useState()
   const [deleted, setDeleted] = useState(false)
-  const [show, setShow] = useState(false)
-  const [showLikes, setShowLikes] = useState(likes)
+
+  useEffect(async () => {
+    const data = await blogService.getById(id)
+    setBlog(data)
+  }, [])
 
   const handleLike = async () => {
-    const likedBlog = {
-      title,
-      author,
-      url,
-      likes: showLikes + 1,
-      user,
-      id
-    }
+    const likedBlog = { ...blog, likes: blog.likes + 1 }
     try {
       await blogService.likeBlog(likedBlog)
-      setShowLikes(showLikes + 1)
-      dispatch(setNotification(`Liked ${title}, from ${author}`, 'ok'))
+      setBlog(likedBlog)
+      dispatch(setNotification(`Liked ${blog.title}, from ${blog.author}`, 'ok'))
     } catch ({ response }) { dispatch(setNotification(response.data.error, 'error')) }
   }
 
-  const toggleShow = () => setShow(!show)
-
-  if (deleted) return null
+  if (deleted) return <strong>Blog Deleted</strong>
+  if (!blog) return null
 
   return (
-    show
-      ? (
-        <div style={blogStyle}>
-          <div>
-            <span>{title}</span>
-            <button onClick={toggleShow}>hide</button>
-          </div>
-          <div className='url'>
-           <span>{url}</span>
-          </div>
-          <div>
-           <span className='likes'>likes: {showLikes}</span>
-           <button onClick={handleLike}>like</button>
-          </div>
-          <div>
-            <span>{author}</span>
-          </div>
-          <DeleteBlog
-          userId={user.id}
-          blog={blog}
-          setDeleted={setDeleted}
-          />
-        </div>
-        )
-      : (
+    <article>
+      <h2>{blog.title}</h2>
+      <a href='#'>{blog.url}</a>
       <div>
-        <span>{title}</span>
-        <span>{author}</span>
-        <button onClick={toggleShow}>view</button>
+        <span className='likes'>likes: {blog.likes}</span>
+        <button onClick={handleLike}>like</button>
       </div>
-        )
+      <p>Added by {blog.author}</p>
+      <DeleteBlog
+        userId={blog.user.id}
+        blog={blog}
+        setDeleted={setDeleted}
+      />
+    </article>
   )
-}
-
-Blog.propTypes = {
-  blog: PropTypes.object.isRequired
 }
 
 export default Blog

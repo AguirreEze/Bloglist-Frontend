@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import BlogList from './components/BlogList/BlogList'
 import UserList from './components/UserList/UserList'
 import User from './components/User/User'
+import Blog from './components/Blog/Blog'
 
 const App = () => {
   const user = useSelector(store => store.user)
@@ -38,6 +39,7 @@ const App = () => {
               </header>
               <Routes>
                 <Route path='/users/:id' element={<User/>} />
+                <Route path='/blogs/:id' element={<Blog/>} />
                 <Route path='/users' element={<UserList />} />
                 <Route path='/' element={<BlogList />} />
               </Routes>

@@ -15,6 +15,11 @@ const getConfig = () => {
   })
 }
 
+const getById = async (id) => {
+  const { data } = await axios.get(`${baseUrl}/${id}`)
+  return data
+}
+
 const getAll = () => {
   const request = axios.get(baseUrl)
   return request.then(response => response.data)
@@ -39,4 +44,4 @@ const deleteBlog = (id) => {
   return req.then(res => res.data)
 }
 
-export default { getAll, createNewBlog, likeBlog, deleteBlog }
+export default { getAll, createNewBlog, likeBlog, deleteBlog, getById }
