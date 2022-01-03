@@ -1,18 +1,15 @@
 import React, { useEffect } from 'react'
+import { Routes, Route } from 'react-router-dom'
 import Login from './components/Login'
 import Notification from './components/Notification/Notification'
-import { setLogin } from './reducers/userReducer'
+import { setLogin, setLogout } from './reducers/userReducer'
 import { useSelector, useDispatch } from 'react-redux'
-import { initBlogs } from './reducers/blogsReducer'
 import BlogList from './components/BlogList/BlogList'
+import UserList from './components/UserList/UserList'
 
 const App = () => {
   const user = useSelector(store => store.user)
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    dispatch(initBlogs())
-  }, [])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('BloglistUser')
@@ -22,11 +19,28 @@ const App = () => {
     }
   }, [])
 
+  const handleLogout = () => {
+    window.localStorage.removeItem('BloglistUser')
+    dispatch(setLogout())
+  }
+
   return (
     <>
       <Notification/>
       {user
-        ? <BlogList />
+        ? (
+            <>
+              <header>
+                <h1>blogs app</h1>
+                <span>{`Logged as ${user.username}`}</span>
+                <button onClick={handleLogout}>Logout</button>
+              </header>
+              <Routes>
+                <Route path='/users' element={<UserList />} />
+                <Route path='/' element={<BlogList />} />
+              </Routes>
+            </>
+          )
         : (
             <Login/>
           )

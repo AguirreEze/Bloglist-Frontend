@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { setNotification } from '../reducers/notificationReducer'
-import blogService from '../services/blogs'
-import DeleteBlog from './DeleteBlog'
+import { setNotification } from '../../reducers/notificationReducer'
+import blogService from '../../services/blogs'
+import DeleteBlog from '../DeleteBlog'
 
 const blogStyle = {
   paddingTop: 10,

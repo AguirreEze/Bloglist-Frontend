@@ -1,25 +1,21 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import CreateNewBlog from '../CreateNewBlog'
-import { setLogout } from '../../reducers/userReducer'
+import { initBlogs } from '../../reducers/blogsReducer'
 import Togglable from '../Togglable'
-import Blog from '../Blog'
+import Blog from '../Blog/Blog'
 
 const BlogList = () => {
   const hideForm = useRef()
   const blogs = useSelector(store => store.blogs)
-  const user = useSelector(store => store.user)
   const dispatch = useDispatch()
 
-  const handleLogout = () => {
-    window.localStorage.removeItem('BloglistUser')
-    dispatch(setLogout())
-  }
+  useEffect(() => {
+    dispatch(initBlogs())
+  }, [])
+
   return (
-    <div>
-        <h2>blogs</h2>
-        <span>{`Logged as ${user.username}`}</span>
-        <button onClick={handleLogout}>Logout</button>
+    <section>
         <Togglable buttonLabel="Add a Blog" ref={hideForm}>
             <CreateNewBlog hide={hideForm} />
         </Togglable>
@@ -28,7 +24,7 @@ const BlogList = () => {
         <Blog key={blog.id} blog={blog} />
         )}
         </div>
-    </div>)
+    </section>)
 }
 
 export default BlogList
