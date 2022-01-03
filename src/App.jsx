@@ -1,18 +1,13 @@
-import React, { useEffect, useRef } from 'react'
-import Blog from './components/Blog'
+import React, { useEffect } from 'react'
 import Login from './components/Login'
-import CreateNewBlog from './components/CreateNewBlog'
 import Notification from './components/Notification/Notification'
-import Togglable from './components/Togglable'
-import { setLogin, setLogout } from './reducers/userReducer'
+import { setLogin } from './reducers/userReducer'
 import { useSelector, useDispatch } from 'react-redux'
 import { initBlogs } from './reducers/blogsReducer'
+import BlogList from './components/BlogList/BlogList'
 
 const App = () => {
-  const hideForm = useRef()
-
   const user = useSelector(store => store.user)
-  const blogs = useSelector(store => store.blogs)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -27,33 +22,13 @@ const App = () => {
     }
   }, [])
 
-  const handleLogout = () => {
-    window.localStorage.removeItem('BloglistUser')
-    dispatch(setLogout())
-  }
-
   return (
     <>
       <Notification/>
       {user
-        ? (
-          <div>
-            <h2>blogs</h2>
-            <span>{`Logged as ${user.username}`}</span>
-            <button onClick={handleLogout}>Logout</button>
-            <Togglable buttonLabel="Add a Blog" ref={hideForm}>
-              <CreateNewBlog hide={hideForm} />
-            </Togglable>
-            <div data-test-id={'blog-list-display'}>
-            {blogs.sort((a, b) => b.likes - a.likes).map(blog =>
-            <Blog key={blog.id} blog={blog} />
-            )}
-            </div>
-          </div>)
+        ? <BlogList />
         : (
-          <>
             <Login/>
-          </>
           )
         }
 
