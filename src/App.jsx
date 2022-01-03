@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Link } from 'react-router-dom'
 import Login from './components/Login'
 import Notification from './components/Notification/Notification'
 import { setLogin, setLogout } from './reducers/userReducer'
@@ -28,15 +28,17 @@ const App = () => {
 
   return (
     <>
-      <Notification/>
       {user
         ? (
-            <>
+          <>
               <header>
-                <h1>blogs app</h1>
+                <Link to={'/'} >Blogs</Link>
+                <Link to={'/users'} >Users</Link>
                 <span>{`Logged as ${user.username}`}</span>
                 <button onClick={handleLogout}>Logout</button>
               </header>
+              <Notification/>
+              <h1>blogs app</h1>
               <Routes>
                 <Route path='/users/:id' element={<User/>} />
                 <Route path='/blogs/:id' element={<Blog/>} />
@@ -46,7 +48,10 @@ const App = () => {
             </>
           )
         : (
-            <Login/>
+            <>
+              <Notification/>
+              <Login/>
+            </>
           )
         }
 
