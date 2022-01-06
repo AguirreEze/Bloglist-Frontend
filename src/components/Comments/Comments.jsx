@@ -1,18 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import CommentForm from '../CommentForm/CommentForm'
 
-const Comments = ({ comments }) => {
-  if (comments.length === 0) {
-    return (
-        <>
-        <h2>Comments</h2>
-        <p>No comments yet</p>
-        </>
-    )
-  }
+const Comments = ({ comments, id }) => {
   return (
     <div>
       <h2>Comments</h2>
+      <CommentForm id={id}/>
       {
         comments.length === 0
           ? (

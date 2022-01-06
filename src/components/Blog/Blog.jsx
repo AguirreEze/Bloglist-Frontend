@@ -43,7 +43,7 @@ const Blog = () => {
         blog={blog}
         setDeleted={setDeleted}
       />
-      <Comments comments={blog.comments} />
+      <Comments comments={blog.comments} id={blog.id} />
     </article>
   )
 }

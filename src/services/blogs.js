@@ -44,4 +44,9 @@ const deleteBlog = (id) => {
   return req.then(res => res.data)
 }
 
-export default { getAll, createNewBlog, likeBlog, deleteBlog, getById }
+const commentBlog = (comment, id) => {
+  const req = axios.post(`${baseUrl}/${id}/comment`, { comment })
+  return req.then(res => res.data)
+}
+
+export default { getAll, createNewBlog, likeBlog, deleteBlog, getById, commentBlog }
