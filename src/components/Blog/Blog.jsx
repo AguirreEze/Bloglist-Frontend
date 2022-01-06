@@ -4,6 +4,7 @@ import { useParams } from 'react-router'
 import { setNotification } from '../../reducers/notificationReducer'
 import blogService from '../../services/blogs'
 import DeleteBlog from '../DeleteBlog'
+import Comments from '../Comments/Comments'
 
 const Blog = () => {
   const dispatch = useDispatch()
@@ -42,6 +43,7 @@ const Blog = () => {
         blog={blog}
         setDeleted={setDeleted}
       />
+      <Comments comments={blog.comments} />
     </article>
   )
 }
